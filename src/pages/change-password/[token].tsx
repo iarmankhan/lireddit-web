@@ -62,10 +62,6 @@ const ChangePassword: NextPage<{ token: string }> = ({ token }) => {
                     <Form>
                         {tokenError !== "" ? (
                             <Box mb={4}>
-                                {/* <Alert status="error">
-                                    <AlertIcon />
-                                    {tokenError}
-                                </Alert> */}
                                 <Alert
                                     status="error"
                                     variant="subtle"
