@@ -33,9 +33,11 @@ const Index = () => {
 
     return (
         <Layout>
-            <Flex align="right">
+            <Flex align="right" mb={5}>
                 <NextLink href="/create-post">
-                    <Link ml="auto">Create Post</Link>
+                    <Button variantColor="teal" variant="ghost" ml="auto">
+                        Create Post
+                    </Button>
                 </NextLink>
             </Flex>
 
@@ -50,7 +52,10 @@ const Index = () => {
                 <Stack spacing={8}>
                     {data!.posts.posts.map((p) => (
                         <Box p={5} key={p.id} shadow="md" borderWidth="1px">
-                            <Heading fontSize="xl">{p.title}</Heading>
+                            <Flex justify="space-between" align="center">
+                                <Heading fontSize="xl">{p.title}</Heading>
+                                <Text>Posted by {p.creator.username}</Text>
+                            </Flex>
                             <Text mt={4}>{p.textSnippet}</Text>
                         </Box>
                     ))}
