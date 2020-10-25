@@ -1,19 +1,19 @@
-import React, { useState } from "react";
 import {
     Box,
     Button,
     CircularProgress,
     Flex,
     Heading,
-    Link,
     Stack,
     Text,
 } from "@chakra-ui/core";
 import { withUrqlClient } from "next-urql";
+import NextLink from "next/link";
+import React, { useState } from "react";
 import { Layout } from "../components/Layout";
+import { UpdootSection } from "../components/UpdootSection";
 import { usePostsQuery } from "../generated/graphql";
 import { createUrqlClient } from "../utils/createUrqlClient";
-import NextLink from "next/link";
 
 const Index = () => {
     const [variables, setVariables] = useState({
@@ -21,7 +21,6 @@ const Index = () => {
         cursor: null as null | string,
     });
     const [{ data, fetching }] = usePostsQuery({ variables });
-    console.log(data?.posts);
 
     if (!fetching && !data) {
         return (
@@ -51,13 +50,22 @@ const Index = () => {
             ) : (
                 <Stack spacing={8}>
                     {data!.posts.posts.map((p) => (
-                        <Box p={5} key={p.id} shadow="md" borderWidth="1px">
-                            <Flex justify="space-between" align="center">
+                        <Flex
+                            p={5}
+                            key={p.id}
+                            shadow="md"
+                            borderWidth="1px"
+                            align="center"
+                        >
+                            <UpdootSection post={p} />
+                            <Box w="100%">
                                 <Heading fontSize="xl">{p.title}</Heading>
-                                <Text>Posted by {p.creator.username}</Text>
-                            </Flex>
-                            <Text mt={4}>{p.textSnippet}</Text>
-                        </Box>
+                                <Text fontSize="xs">
+                                    Posted by {p.creator.username}
+                                </Text>
+                                <Text mt={4}>{p.textSnippet}</Text>
+                            </Box>
+                        </Flex>
                     ))}
                 </Stack>
             )}
