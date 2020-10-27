@@ -4,6 +4,7 @@ import {
     CircularProgress,
     Flex,
     Heading,
+    Link,
     Stack,
     Text,
 } from "@chakra-ui/core";
@@ -32,21 +33,10 @@ const Index = () => {
 
     return (
         <Layout>
-            <Flex align="right" mb={5}>
-                <NextLink href="/create-post">
-                    <Button variantColor="teal" variant="ghost" ml="auto">
-                        Create Post
-                    </Button>
-                </NextLink>
-            </Flex>
-
             {!data && fetching ? (
-                <Box>
-                    <CircularProgress
-                        isIndeterminate
-                        color="green"
-                    ></CircularProgress>
-                </Box>
+                <Flex height={200} alignItems="center" justifyContent="center">
+                    <CircularProgress isIndeterminate color="green" />
+                </Flex>
             ) : (
                 <Stack spacing={8}>
                     {data!.posts.posts.map((p) => (
@@ -59,7 +49,16 @@ const Index = () => {
                         >
                             <UpdootSection post={p} />
                             <Box w="100%">
-                                <Heading fontSize="xl">{p.title}</Heading>
+                                <NextLink
+                                    href="/post/[id]"
+                                    as={`/post/${p.id}`}
+                                >
+                                    <Link>
+                                        <Heading fontSize="xl">
+                                            {p.title}
+                                        </Heading>
+                                    </Link>
+                                </NextLink>
                                 <Text fontSize="xs">
                                     Posted by {p.creator.username}
                                 </Text>
