@@ -62,7 +62,9 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
                 <Box>
                     <NextLink href="/">
                         <Link>
-                            <Heading as="h1">LiReddit</Heading>
+                            <Heading as="h1" color="white">
+                                LiReddit
+                            </Heading>
                         </Link>
                     </NextLink>
                 </Box>

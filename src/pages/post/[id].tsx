@@ -1,21 +1,13 @@
 import { Box, CircularProgress, Flex, Heading, Text } from "@chakra-ui/core";
 import { withUrqlClient } from "next-urql";
-import { useRouter } from "next/router";
 import React from "react";
 import { Layout } from "../../components/Layout";
-import { usePostQuery } from "../../generated/graphql";
+import { PostActions } from "../../components/PostActions";
 import { createUrqlClient } from "../../utils/createUrqlClient";
+import { useGetPostFromUrl } from "../../utils/useGetPostFromUrl";
 
 const Post = ({}) => {
-    const router = useRouter();
-    const intId =
-        typeof router.query.id === "string" ? parseInt(router.query.id) : -1;
-    const [{ data, fetching }] = usePostQuery({
-        pause: intId === -1,
-        variables: {
-            id: intId,
-        },
-    });
+    const [{ data, fetching }] = useGetPostFromUrl();
 
     if (fetching) {
         return (
@@ -39,8 +31,23 @@ const Post = ({}) => {
 
     return (
         <Layout>
-            <Heading>{data.post.title}</Heading>
-            <Text>{data.post.text}</Text>
+            <Box mt={5}>
+                <Flex align="center" justifyContent="space-between">
+                    <Box>
+                        <Heading>{data.post.title}</Heading>
+                        <Text mt={2} color="grey">
+                            Posted by {data.post.creator.username}
+                        </Text>
+                    </Box>
+                    <PostActions
+                        id={data.post.id}
+                        creatorId={data.post.creator.id}
+                    />
+                </Flex>
+                <Box mt={10}>
+                    <Text>{data.post.text}</Text>
+                </Box>
+            </Box>
         </Layout>
     );
 };
